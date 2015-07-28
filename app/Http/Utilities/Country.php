@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Utilities;
-
+ 
 class Country {
 
 	protected static $countries = [
