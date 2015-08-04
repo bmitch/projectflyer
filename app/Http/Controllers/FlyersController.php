@@ -27,7 +27,6 @@ class FlyersController extends Controller
      */
     public function create()
     {
-        flash()->overlay("My title", "hello world!");
         return view('flyers.create');
     }
 
@@ -51,12 +50,13 @@ class FlyersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show($zip, $street)
     {
-        //
+        $flyer = Flyer::locatedAt($zip, $street)->first();
+    
+        return view ('flyers.show', compact('flyer'));
     }
 
     /**
