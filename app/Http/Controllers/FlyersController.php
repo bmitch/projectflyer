@@ -15,6 +15,8 @@ class FlyersController extends Controller
     public function __construct()
     {
         $this->middleware('auth', ['except' => ['show']]);
+        
+        parent::__construct();
     }
 
     /**
@@ -71,6 +73,18 @@ class FlyersController extends Controller
         $this->validate($request, [
             'photo' => 'required|mimes:jpg,jpeg,png,bmp'
         ]);
+
+        $flyer = Flyer::locatedAt($zip, $street);
+
+        if ($flyer->user_id !== \Auth::id()) {
+            if ($request->ajax()) {
+                return response(['message' => 'No way.'], 403);
+            }
+
+            flash('No way');
+
+            return redirect('/');
+        }
 
         $photo = $this->makePhoto($request->file('photo'));
 
