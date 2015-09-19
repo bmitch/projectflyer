@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Flyer;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -36,5 +37,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function owns($relation)
     {
         return $relation->user_id == $this->id;
+    }
+
+    public function flyers()
+    {
+        return $this->hasMany(Flyer::class);
+    }
+
+    public function publish($flyer)
+    {
+        return $this->flyers()->save($flyer);
     }
 }

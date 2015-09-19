@@ -10,3 +10,8 @@ function flash($title = null, $message = null)
 
 	return $flash->info($title, $message);
 }
+
+function flyer_path(App\Flyer $flyer)
+{
+	return $flyer->zip . '/' . str_replace(' ', '-', $flyer->street);
+}

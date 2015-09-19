@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Flyer;
-use App\Photo;
 use Illuminate\Http\Request;
 use App\Http\Requests\FlyerRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddPhotoRequest;
 
 class FlyersController extends Controller
 {
@@ -47,13 +45,14 @@ class FlyersController extends Controller
      */
     public function store(FlyerRequest $request)
     {
-        // persist the flyer
-        Flyer::create($request->all());
+        $flyer = $this->user->publish(
+            new Flyer($request->all())
+        );
 
         // flash messaging
         flash('Success!', 'Your flyer has been created!');
 
-        return redirect()->back(); // temporary
+        return redirect(flyer_path($flyers));
     }
 
     /**
@@ -66,13 +65,6 @@ class FlyersController extends Controller
         $flyer = Flyer::locatedAt($zip, $street);
 
         return view('flyers.show', compact('flyer'));
-    }
-
-    public function addPhoto($zip, $street, AddPhotoRequest $request)
-    {
-        $photo = Photo::fromFile($request->file('photo'));
-
-        Flyer::locatedAt($zip, $street)->addPhoto($photo);
     }
 
     /**
