@@ -33,7 +33,7 @@ class AddPhotoToFlyer {
 	protected function makeFileName()
 	{
 		$name = sha1(
-            $this->file->getClientOriginalName()
+            time() . $this->file->getClientOriginalName()
         );
 
         $extension = $this->file->getClientOriginalExtension();

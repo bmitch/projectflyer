@@ -25,13 +25,14 @@ class AddPhotoToFlyerTest extends \TestCase
 			->once()
 			->with('images/photos', 'nowfoo.jpg');
 
-		$form = new AddPhotoToFlyer($flyer, $file, $thumbnail);
 
 		$thumbnail = m::mock(Thumbnail::class);
 
 		$thumbnail->shouldReceive('make')
 			->once()
 			->with('images/photos/nowfoo.jpg', 'images/photos/tn-nowfoo.jpg');
+
+		$form = new AddPhotoToFlyer($flyer, $file, $thumbnail);
 
 		$form->save();
 
